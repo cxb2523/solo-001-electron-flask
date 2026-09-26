@@ -2,4 +2,25 @@
 {% block title %}Home{% endblock %}
 {% block body %}
         <h1>This is the dashboard</h1>
+        <section class="text-stats-panel">
+          <h2>文本统计</h2>
+          <textarea
+            id="text-stats-input"
+            class="text-stats-input"
+            rows="8"
+            placeholder="在此输入或粘贴要统计的文本..."
+          ></textarea>
+          <div class="text-stats-actions">
+            <button id="text-stats-button" type="button" class="text-stats-button">
+              统计
+            </button>
+          </div>
+          <div
+            id="text-stats-result"
+            class="text-stats-result"
+            role="status"
+            aria-live="polite"
+          ></div>
+        </section>
+        <script src="{{ url_for('static', filename='js/text_stats.js') }}"></script>
 {% endblock %}

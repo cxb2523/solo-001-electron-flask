@@ -1,0 +1,29 @@
+.text-stats {
+  margin-top: 16px;
+  max-width: 640px;
+}
+
+.text-stats textarea {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.text-stats button {
+  margin: 8px 0;
+  padding: 6px 16px;
+}
+
+.text-stats button:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.text-stats-result ul {
+  margin: 8px 0 0;
+  padding-left: 20px;
+}
+
+.text-stats-result.error {
+  color: #b00020;
+  margin-top: 8px;
+}

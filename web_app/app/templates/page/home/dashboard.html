@@ -2,4 +2,67 @@
 {% block title %}Home{% endblock %}
 {% block body %}
         <h1>This is the dashboard</h1>
+
+        <section class="text-stats">
+          <h2>文本统计</h2>
+          <textarea
+            id="text-stats-input"
+            rows="8"
+            placeholder="请输入要统计的文本"
+          ></textarea>
+          <div>
+            <button id="text-stats-btn" type="button">统计</button>
+          </div>
+          <div id="text-stats-result" class="text-stats-result"></div>
+        </section>
+
+        <script>
+          (function () {
+            var btn = document.getElementById("text-stats-btn");
+            var input = document.getElementById("text-stats-input");
+            var result = document.getElementById("text-stats-result");
+
+            btn.addEventListener("click", async function () {
+              btn.disabled = true;
+              btn.textContent = "统计中…";
+              result.className = "text-stats-result";
+              result.textContent = "";
+
+              try {
+                var response = await fetch(
+                  window.location.origin + "/api/text-stats",
+                  {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ text: input.value }),
+                  }
+                );
+                var data = await response.json().catch(function () {
+                  return null;
+                });
+                if (!response.ok) {
+                  var message =
+                    data && data.error
+                      ? data.error
+                      : "服务器返回错误（HTTP " + response.status + "）";
+                  result.classList.add("error");
+                  result.textContent = "统计失败：" + message;
+                  return;
+                }
+                result.innerHTML =
+                  "<ul>" +
+                  "<li>字符数：" + data.characters + "</li>" +
+                  "<li>单词数：" + data.words + "</li>" +
+                  "<li>行数：" + data.lines + "</li>" +
+                  "</ul>";
+              } catch (err) {
+                result.classList.add("error");
+                result.textContent = "网络请求失败，请确认服务已启动后重试。";
+              } finally {
+                btn.disabled = false;
+                btn.textContent = "统计";
+              }
+            });
+          })();
+        </script>
 {% endblock %}
